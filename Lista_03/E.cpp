@@ -5,42 +5,47 @@ using namespace std;
 int main(){
     int N;
     cin >> N;
+
+    int cor=0;
     
     vector<int> fita(N);
     for (int i=0; i<N; i++){
         cin >> fita[i];
     }
 
-    vector<int> distancias(N,N);
-
-    for(int i =0; i< N; i++){
-        if (fita[i] == 0){
-            distancias[i] = 0;
-        } else if(i > 0 && distancias[i-1] + 1 < distancias[i]){
-            distancias[i] = distancias[i-1] + 1;
-        }
-    }
-
-    for (int i = N-1; i >= 0; i--){
-        if (fita[i]==0){
-            distancias[i] = 0;
-        } else if (i < N - 1 && distancias[i+1] + 1 < distancias[i]){
-            distancias[i] = distancias[i+1] + 1;
-        }
-
-        for (int i = 0; i < N; i++) {
-            // Limita a distância a 9
-            int distancia = min(distancias[i], 9);
-            
-            cout << distancia;
-            
-            // Adiciona um espaço entre os números, mas não após o último
-            if (i < N - 1) {
-                cout << " ";
+    for (int i = 0; i < 10; i++){
+        for (int j = 0; j < N; j++){
+            if(fita[j] == cor && fita[j] != 9){
+                if (fita[j-1] == -1){
+                    fita[j-1] = cor+1;
+                }
+                if (fita[j+1] == -1){
+                    fita[j+1] = cor+1;
+                }
             }
         }
-        cout << endl;
-    
-        return 0;
+
+        if (cor < 10){
+            cor++;
+        }
     }
+
+    for (int i = 0; i < N; i++){
+        if (fita[i] == -1){
+            fita[i] = 9;
+        }
+    }
+
+    bool primeiro = true;
+
+    for (int i = 0; i < N; i++){
+        if (primeiro==true){
+            cout << fita[i];
+            primeiro = false;
+        } else {
+            cout << " " << fita[i];
+        }    
+    }
+    cout << endl;
+    return 0;
 }
